@@ -20,9 +20,7 @@ public:
 };
 
 
-TEST_F(BaseballFixture, ThrowExceptionWhenInputLengthIsUnmached) {
+TEST_F(BaseballFixture, ThrowExceptionWhenInvalidCase) {
 	assertIllegalArgument(string("12"));
-}
-TEST_F(BaseballFixture, ThrowExceptionWhenInvalidChar) {
 	assertIllegalArgument(string("12s"));
 }
