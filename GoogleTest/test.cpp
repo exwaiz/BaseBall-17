@@ -1,19 +1,28 @@
 #include "pch.h"
 #include "../BaseBall-17/baseball.cpp"
 
-TEST(BaseballGame, ThrowExceptionWhenInputLengthIsUnmached) {
+class BaseballFixture : public testing::Test
+{
+public:
 	Baseball game;
-	EXPECT_THROW(game.guess(string("12")), length_error);
-}
-TEST(BaseballGame, ThrowExceptionWhenInvalidChar) {
-	Baseball game;
-	try
+	void assertIllegalArgument(string guessNumber)
 	{
-		game.guess(string("12s"));
-		FAIL();
-	} catch (exception e)
-	{
-		//PASS
+		try
+		{
+			game.guess(guessNumber);
+			FAIL();
+		}
+		catch (exception e)
+		{
+			//PASS
+		}
 	}
-	//EXPECT_THROW(game.guess(string("12s")), invalid_argument);
+};
+
+
+TEST_F(BaseballFixture, ThrowExceptionWhenInputLengthIsUnmached) {
+	assertIllegalArgument(string("12"));
+}
+TEST_F(BaseballFixture, ThrowExceptionWhenInvalidChar) {
+	assertIllegalArgument(string("12s"));
 }
