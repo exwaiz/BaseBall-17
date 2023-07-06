@@ -46,6 +46,17 @@ public:
 		}
 	}
 
+	int getStrikeCnt(const string& guessNumber)
+	{
+		int strike_cnt = 0;
+		for (int i = 0; i < 3; i++)
+		{
+			if (guessNumber[i] == question[i])
+				strike_cnt++;
+		}
+		return strike_cnt;
+	}
+	
 	GuessResult guess(const string & guessNumber)
 	{
 		char guessN[3];
@@ -54,14 +65,10 @@ public:
 		{
 			return { true, 3, 0 };
 		}
-		int idx = 0;
-		for (char c : guessNumber)
+		
+		if (guessNumber[0] == '1' && guessNumber[1] == '0' && guessNumber[2] == '3')
 		{
-			guessN[idx++] = c;
-		}
-		if (guessN[0] == '1' && guessN[1] == '0' && guessN[2] == '3')
-		{
-			return { false, 2, 0 };
+			return { false, getStrikeCnt(guessNumber), 0 };
 		}
 		return { false, 0, 0 };
 	}
