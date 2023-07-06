@@ -17,7 +17,7 @@ public:
 	explicit Baseball(const string& question) :
 		question(question)
 	{
-
+		result = { false,0,0 };
 	}
 
 	bool isDuplicatedNumber(const string& guessNumber)
@@ -56,7 +56,21 @@ public:
 		}
 		return strike_cnt;
 	}
-	
+
+
+	int getBallCnt(const string& guessNumber) {
+		int ball_cnt = 0;
+		for (int i = 0; i < guessNumber.size(); i++) {
+			for (int x = 0; x < question.size(); x++) {
+				if (i == x) continue;
+				if (guessNumber[i] != question[x]) continue;
+				ball_cnt++;
+				break;
+			}
+		}
+		return ball_cnt;
+	}
+
 	GuessResult guess(const string & guessNumber)
 	{
 		char guessN[3];
@@ -65,14 +79,15 @@ public:
 		{
 			return { true, 3, 0 };
 		}
-		
-		if (guessNumber[0] == '1' && guessNumber[1] == '0' && guessNumber[2] == '3')
-		{
-			return { false, getStrikeCnt(guessNumber), 0 };
-		}
-		return { false, 0, 0 };
+
+		result.balls = getBallCnt(guessNumber);
+		result.strikes = getStrikeCnt(guessNumber);
+		result.solved = (result.strikes == 3 && result.balls == 0);
+
+		return result;
 	}
 private:
 	string question;
+	GuessResult result;
 
 };
